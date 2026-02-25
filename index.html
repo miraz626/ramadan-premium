@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Premium</title>
+<title>রমজান প্রিমিয়াম</title>
 
 <style>
 body{
@@ -26,22 +26,35 @@ h1{
     margin:10px 0;
 }
 
-select,button{
-    padding:10px;
-    margin:5px;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
+.circle-box{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:gold;
+    color:black;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:20px auto;
+    font-weight:bold;
 }
 
 button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
     background:gold;
     cursor:pointer;
+    font-size:16px;
 }
 
 #time{
-    font-size:20px;
+    font-size:18px;
     margin-top:10px;
+}
+
+.section{
+    margin-top:30px;
 }
 </style>
 </head>
@@ -50,34 +63,44 @@ button{
 
 <div class="container">
 
-<h1>🌙 Ramadan Premium</h1>
+<h1>🌙 রমজান প্রিমিয়াম 🌙</h1>
 
 <div class="moon">🌙</div>
 
 <p id="time"></p>
 
-<select id="division">
-<option>Select Division</option>
-<option>Dhaka</option>
-<option>Chattogram</option>
-<option>Rajshahi</option>
-<option>Khulna</option>
-<option>Barishal</option>
-<option>Sylhet</option>
-<option>Rangpur</option>
-<option>Mymensingh</option>
-</select>
-
-<br>
-
-<button onclick="getLocation()">Use GPS</button>
-
+<button onclick="getLocation()">GPS ব্যবহার করুন</button>
 <p id="location"></p>
 
-<h3>Surah Rahman</h3>
+<div class="circle-box">
+তাসবি পড়ুন
+</div>
+
+<div class="section">
+<h3>▶ সূরা রহমান শুনুন</h3>
 <audio controls>
 <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/055.mp3" type="audio/mpeg">
 </audio>
+</div>
+
+<div class="section">
+<h3>রোজা রাখার নিয়ত</h3>
+<p>
+নাওয়াইতু আন আসুমা গাদাম মিন শাহরি রমাদানাল মুবারাক।<br><br>
+আমি নিয়ত করলাম আগামীকাল রমজানের রোজা রাখার জন্য।
+</p>
+</div>
+
+<div class="section">
+<h3>৫ ওয়াক্ত নামাজের সময়সূচি</h3>
+<p>
+ফজর – 5:00 AM<br>
+যোহর – 1:15 PM<br>
+আসর – 4:30 PM<br>
+মাগরিব – 6:45 PM<br>
+এশা – 8:00 PM
+</p>
+</div>
 
 </div>
 
@@ -85,7 +108,7 @@ button{
 function updateTime(){
     const now = new Date();
     document.getElementById("time").innerHTML =
-    "Current Time: " + now.toLocaleTimeString();
+    "বর্তমান সময়: " + now.toLocaleTimeString();
 }
 setInterval(updateTime,1000);
 
@@ -94,14 +117,13 @@ function getLocation(){
         navigator.geolocation.getCurrentPosition(
         function(position){
             document.getElementById("location").innerHTML =
-            "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
+            "আপনার লোকেশন পাওয়া গেছে ✅";
         },
-        function(){
-            alert("Location permission denied.");
+        function(error){
+            alert("লোকেশন পারমিশন প্রয়োজন!");
         });
     } else {
-        alert("Geolocation not supported.");
+        alert("এই ব্রাউজারে GPS সাপোর্ট নেই");
     }
 }
 </script>
