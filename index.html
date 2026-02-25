@@ -3,159 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Kareem</title>
+<title>HappyRamadan</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 body{
 margin:0;
-font-family: sans-serif;
-background:#0b2d4d;
+font-family:'Poppins',sans-serif;
+background: radial-gradient(circle at top,#0c1b2e,#050d18);
 color:white;
 text-align:center;
 }
 
-h1{
-color:gold;
-margin-top:15px;
+.header{
+padding:25px 10px;
 }
 
-.moon{
-font-size:60px;
-margin-top:10px;
+.header h1{
+font-size:28px;
+letter-spacing:4px;
+color:#f7c948;
+margin:10px 0 0;
+}
+
+.subtitle{
+font-size:14px;
+opacity:.7;
+}
+
+.card{
+width:92%;
+margin:15px auto;
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(15px);
+box-shadow:0 0 30px rgba(255,200,0,.2);
 }
 
 .time{
-font-size:20px;
-margin:10px;
+font-size:40px;
+color:#f7c948;
+font-weight:700;
+}
+
+.date{
+opacity:.8;
+margin-top:5px;
 }
 
 .btn{
-background:gold;
+margin-top:15px;
+padding:10px 20px;
 border:none;
-padding:12px 20px;
-font-size:18px;
-border-radius:8px;
-cursor:pointer;
-margin:10px;
-}
-
-.circle{
-width:200px;
-height:200px;
-background:gold;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-margin:20px auto;
-font-size:22px;
+border-radius:30px;
+background:linear-gradient(45deg,#00ffcc,#00bfff);
 color:black;
+font-weight:600;
 cursor:pointer;
 }
 
-.section{
-margin-top:20px;
-padding:10px;
+.grid{
+display:flex;
+justify-content:space-between;
+width:92%;
+margin:15px auto;
+}
+
+.box{
+width:48%;
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,0.05);
+box-shadow:0 0 20px rgba(0,255,200,.2);
+}
+
+.box h3{
+margin:5px 0;
+}
+
+.countdown{
+font-size:22px;
+margin-top:10px;
+color:#00ffcc;
 }
 
 audio{
-width:90%;
+width:100%;
 margin-top:10px;
+border-radius:10px;
 }
 
-.table{
-margin:20px auto;
-width:90%;
-background:#123d66;
-padding:10px;
-border-radius:10px;
+.tasbih-count{
+font-size:45px;
+margin:20px 0;
+color:#f7c948;
+}
+
+.tasbih-btn{
+padding:12px 30px;
+border-radius:30px;
+border:none;
+background:linear-gradient(45deg,#f7c948,#ff9900);
+color:black;
+font-weight:bold;
+cursor:pointer;
+}
+
+.small{
+font-size:13px;
+opacity:.7;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🌙 Ramadan Kareem 🌙</h1>
-
-<div class="moon">🌙</div>
-
-<div class="time">
-বর্তমান সময়: <span id="clock"></span>
+<div class="header">
+<h1>HAPPYRAMADAN</h1>
+<div class="subtitle">রমজানের নূর ছড়াও</div>
 </div>
 
-<button class="btn" onclick="getLocation()">GPS ব্যবহার করুন</button>
-
-<div id="locationStatus"></div>
-
-<div class="circle" onclick="showTasbi()">
-তাসবি পড়ুন
+<div class="card">
+<div>বর্তমান সময়</div>
+<div class="time" id="clock"></div>
+<div class="date" id="date"></div>
+<button class="btn" onclick="getLocation()">📍 GPS চালু করুন</button>
 </div>
 
-<div id="tasbiSection" class="section" style="display:none;">
-<h3>তাসবির সূরা</h3>
-<p>
-সুবহানাল্লাহ  
-আলহামদুলিল্লাহ  
-আল্লাহু আকবার  
-</p>
+<div class="grid">
+<div class="box">
+<h3>সেহরি শেষ</h3>
+<div>5:02 AM</div>
+<div class="countdown" id="sehriCountdown"></div>
+</div>
 
+<div class="box">
+<h3>ইফতার শুরু</h3>
+<div>5:57 PM</div>
+<div class="countdown" id="iftarCountdown"></div>
+</div>
+</div>
+
+<div class="card">
+<h3>সূরা আর-রহমান (৫৫)</h3>
 <audio controls>
-<source src="https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/055.mp3" type="audio/mpeg">
+<source src="https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/055.mp3">
 </audio>
 </div>
 
-<div class="section">
-<h3>▶ সূরা রহমান শুনুন</h3>
-<audio controls>
-<source src="https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/055.mp3" type="audio/mpeg">
-</audio>
-</div>
-
-<div class="section">
-<h3>রোজা রাখার নিয়ত</h3>
-<p>
-বাংলা: আমি আগামীকালের রোজা রাখার নিয়ত করলাম আল্লাহর সন্তুষ্টির জন্য।<br><br>
-আরবি উচ্চারণ: নাওয়াইতু আন আসুমা গাদান মিন শাহরি রামাদানাল মুবারক।
-</p>
-</div>
-
-<div class="table">
-<h3>আজকের নামাজের সময়সূচি</h3>
-<p>ফজর — 4:30 AM</p>
-<p>যোহর — 12:15 PM</p>
-<p>আসর — 4:45 PM</p>
-<p>মাগরিব — 6:20 PM</p>
-<p>এশা — 8:00 PM</p>
+<div class="card">
+<h3>তাসবিহ কাউন্টার</h3>
+<div class="tasbih-count" id="tasbihCount">0</div>
+<button class="tasbih-btn" onclick="increaseTasbih()">তাসবিহ করুন</button>
+<div class="small">লক্ষ্য: 33</div>
 </div>
 
 <script>
+
+/* CLOCK */
 function updateClock(){
-var now = new Date();
-var time = now.toLocaleTimeString('en-US');
-document.getElementById("clock").innerText = time;
+let now=new Date();
+document.getElementById("clock").innerHTML=
+now.toLocaleTimeString();
+document.getElementById("date").innerHTML=
+now.toDateString();
 }
 setInterval(updateClock,1000);
 updateClock();
 
+/* COUNTDOWN */
+function updateCountdown(){
+let now=new Date();
+
+let sehri=new Date();
+sehri.setHours(5,2,0);
+
+let iftar=new Date();
+iftar.setHours(17,57,0);
+
+let sehriDiff=sehri-now;
+let iftarDiff=iftar-now;
+
+function format(ms){
+if(ms<0) return "সময় শেষ";
+let h=Math.floor(ms/1000/60/60);
+let m=Math.floor((ms/1000/60)%60);
+let s=Math.floor((ms/1000)%60);
+return h+"h "+m+"m "+s+"s";
+}
+
+document.getElementById("sehriCountdown").innerHTML=format(sehriDiff);
+document.getElementById("iftarCountdown").innerHTML=format(iftarDiff);
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+/* TASBIH */
+let count=0;
+function increaseTasbih(){
+count++;
+if(count>33) count=0;
+document.getElementById("tasbihCount").innerHTML=count;
+}
+
+/* GPS */
 function getLocation(){
 if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(
-function(position){
-document.getElementById("locationStatus").innerHTML="লোকেশন পাওয়া গেছে ✅";
-},
-function(){
-document.getElementById("locationStatus").innerHTML="লোকেশন পারমিশন দিন ❗";
-}
-);
-}else{
-alert("GPS সাপোর্ট করে না");
+navigator.geolocation.getCurrentPosition(()=>{
+alert("লোকেশন পাওয়া গেছে ✅");
+});
 }
 }
 
-function showTasbi(){
-document.getElementById("tasbiSection").style.display="block";
-}
 </script>
 
 </body>
-  </html>
+</html>
