@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramadan Ultra Premium</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#0a192f;
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+/* Stars */
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+background:url('https://i.imgur.com/YKY28eT.png');
+animation:moveStars 60s linear infinite;
+z-index:-2;
+}
+@keyframes moveStars{
+from{background-position:0 0;}
+to{background-position:1000px 1000px;}
+}
+
+/* Moon */
+.moon{
+position:absolute;
+top:50px;
+right:50px;
+width:100px;
+height:100px;
+background:radial-gradient(circle at 30% 30%,#fff,#ddd,#aaa);
+border-radius:50%;
+box-shadow:0 0 40px gold;
+animation:floatMoon 6s ease-in-out infinite;
+}
+@keyframes floatMoon{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-15px);}
+}
+
+.container{
+padding:20px;
+}
+
+.title{
+font-family:'Cinzel',serif;
+color:gold;
+font-size:32px;
+}
+
+button{
+padding:8px 15px;
+margin:5px;
+border:none;
+background:gold;
+color:black;
+border-radius:20px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ffcc00;
+}
+
+select,input{
+padding:6px;
+margin:5px;
+border-radius:5px;
+border:none;
+}
+
+#count{
+font-size:32px;
+color:gold;
+}
+
+footer{
+margin-top:30px;
+font-size:14px;
+color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+<div class="moon"></div>
+
+<div class="container">
+
+<h1 class="title">🌙 Ramadan Mubarak</h1>
+
+<p id="clock"></p>
+<p id="hijri"></p>
+
+<button onclick="getLocation()">📍 Use GPS</button>
+
+<br>
+
+<select id="district">
+<option value="">Select Bangladesh District</option>
+<option>Dhaka</option>
+<option>Tangail</option>
+<option>Sylhet</option>
+<option>Chattogram</option>
+<option>Rajshahi</option>
+<option>Khulna</option>
+<option>Barishal</option>
+<option>Rangpur</option>
+<option>Mymensingh</option>
+</select>
+<button onclick="getDistrict()">Get Time</button>
+
+<br>
+
+<input type="text" id="worldCity" placeholder="Enter World City">
+<button onclick="getWorld()">Get World Time</button>
+
+<p>🕌 Sehri: <span id="sehri">--</span></p>
+<p>🌇 Iftar: <span id="iftar">--</span></p>
+
+<p id="countdown"></p>
+
+<h3>📿 Tasbih</h3>
+<p id="count">0</p>
+<button onclick="inc()">+</button>
+<button onclick="resetC()">Reset</button>
+
+<h3>🤲 Dua</h3>
+<p>اللهم إنك عفو تحب العفو فاعف عني</p>
+<p>Allahumma innaka afuwwun tuhibbul afwa fa'fu anni</p>
+
+<footer>Made by Miraz Ahmed</footer>
+
+</div>
+
+<audio id="nasheed" autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5f4b4c7e6a.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="notify">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9a9e0d5e09.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function updateClock(){
+document.getElementById("clock").innerText=new Date().toLocaleString();
+}
+setInterval(updateClock,1000);
+
+fetch("https://api.aladhan.com/v1/gToH")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("hijri").innerText=
+"📅 "+data.data.hijri.day+" "+data.data.hijri.month.en+" "+data.data.hijri.year+" AH";
+});
+
+function inc(){
+let c=document.getElementById("count");
+c.innerText=parseInt(c.innerText)+1;
+}
+
+function resetC(){
+document.getElementById("count").innerText=0;
+}
+
+function startCountdown(maghrib){
+clearInterval(window.timer);
+window.timer=setInterval(()=>{
+let now=new Date();
+let t=new Date();
+let p=maghrib.split(":");
+t.setHours(p[0],p[1],0);
+
+if(now>t) t.setDate(t.getDate()+1);
+
+let d=t-now;
+let h=Math.floor(d/1000/60/60);
+let m=Math.floor(d/1000/60)%60;
+let s=Math.floor(d/1000)%60;
+
+document.getElementById("countdown").innerText=
+"⏳ Iftar in: "+h+"h "+m+"m "+s+"s";
+
+if(h==0 && m==0 && s==0){
+document.getElementById("notify").play();
+}
+},1000);
+}
+
+function setTimes(data){
+let fajr=data.data.timings.Fajr;
+let mag=data.data.timings.Maghrib;
+document.getElementById("sehri").innerText=fajr;
+document.getElementById("iftar").innerText=mag;
+startCountdown(mag);
+}
+
+function getLocation(){
+navigator.geolocation.getCurrentPosition(pos=>{
+fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=2`)
+.then(res=>res.json())
+.then(data=>setTimes(data));
+});
+}
+
+function getDistrict(){
+let city=document.getElementById("district").value;
+fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Bangladesh&method=2`)
+.then(res=>res.json())
+.then(data=>setTimes(data));
+}
+
+function getWorld(){
+let city=document.getElementById("worldCity").value;
+fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&method=2`)
+.then(res=>res.json())
+.then(data=>setTimes(data));
+}
+</script>
+
+</body>
+  </html>
