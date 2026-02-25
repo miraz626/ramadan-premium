@@ -6,56 +6,61 @@
 
 <style>
 body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    text-align:center;
-    background:linear-gradient(to bottom,#001f3f,#003366);
-    color:white;
+margin:0;
+font-family:Arial;
+background:linear-gradient(to bottom,#001f3f,#003366);
+color:white;
+text-align:center;
 }
 
-.container{
-    padding:20px;
+.container{padding:20px;}
+
+.box-row{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
 }
 
-h1{
-    font-size:28px;
+.time-box{
+background:gold;
+color:black;
+padding:15px;
+border-radius:12px;
+width:140px;
+font-weight:bold;
 }
 
-.moon{
-    font-size:60px;
-    margin:10px 0;
+.prayer-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:20px;
 }
 
-.circle-box{
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    background:gold;
-    color:black;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin:20px auto;
-    font-weight:bold;
+.prayer-box{
+background:#0a3d62;
+padding:10px;
+border-radius:10px;
 }
 
-button{
-    padding:10px 20px;
-    border:none;
-    border-radius:8px;
-    background:gold;
-    cursor:pointer;
-    font-size:16px;
+.circle-btn{
+width:150px;
+height:150px;
+border-radius:50%;
+background:gold;
+color:black;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:20px auto;
+font-weight:bold;
+cursor:pointer;
 }
 
-#time{
-    font-size:18px;
-    margin-top:10px;
-}
+audio{margin-top:10px;width:90%;}
 
-.section{
-    margin-top:30px;
-}
+.footer{margin-top:30px;font-size:14px;}
 </style>
 </head>
 
@@ -63,69 +68,98 @@ button{
 
 <div class="container">
 
-<h1>🌙 রমজান প্রিমিয়াম 🌙</h1>
+<h2 id="date"></h2>
+<h3 id="hijri"></h3>
 
-<div class="moon">🌙</div>
+<h1 id="countdown"></h1>
 
-<p id="time"></p>
+<p id="locationName"></p>
 
-<button onclick="getLocation()">GPS ব্যবহার করুন</button>
-<p id="location"></p>
-
-<div class="circle-box">
-তাসবি পড়ুন
+<div class="box-row">
+<div class="time-box">
+সেহেরি<br><span id="sehri"></span>
 </div>
 
-<div class="section">
+<div class="time-box">
+ইফতার<br><span id="iftar"></span>
+</div>
+</div>
+
+<div class="prayer-grid">
+<div class="prayer-box">ফজর<br><span id="fajr"></span></div>
+<div class="prayer-box">যোহর<br><span id="dhuhr"></span></div>
+<div class="prayer-box">আসর<br><span id="asr"></span></div>
+<div class="prayer-box">মাগরিব<br><span id="maghrib"></span></div>
+<div class="prayer-box">এশা<br><span id="isha"></span></div>
+</div>
+
+<div class="circle-btn" onclick="startTasbi()">তাসবি পড়ুন</div>
+<p>গণনা: <span id="tasbiCount">0</span></p>
+
 <h3>▶ সূরা রহমান শুনুন</h3>
 <audio controls>
-<source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/055.mp3" type="audio/mpeg">
+<source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/055.mp3">
 </audio>
-</div>
 
-<div class="section">
 <h3>রোজা রাখার নিয়ত</h3>
 <p>
-নাওয়াইতু আন আসুমা গাদাম মিন শাহরি রমাদানাল মুবারাক।<br><br>
-আমি নিয়ত করলাম আগামীকাল রমজানের রোজা রাখার জন্য।
+نَوَيْتُ أَنْ أَصُوْمَ غَدًا مِّنْ شَهْرِ رَمَضَانَ<br><br>
+নাওয়াইতু আন আসুমা গাদাম মিন শাহরি রমাদান
 </p>
-</div>
 
-<div class="section">
-<h3>৫ ওয়াক্ত নামাজের সময়সূচি</h3>
-<p>
-ফজর – 5:00 AM<br>
-যোহর – 1:15 PM<br>
-আসর – 4:30 PM<br>
-মাগরিব – 6:45 PM<br>
-এশা – 8:00 PM
-</p>
+<div class="footer">
+Made By Miraz Ahmed
 </div>
 
 </div>
 
 <script>
-function updateTime(){
-    const now = new Date();
-    document.getElementById("time").innerHTML =
-    "বর্তমান সময়: " + now.toLocaleTimeString();
+
+let tasbi=0;
+
+function startTasbi(){
+tasbi++;
+document.getElementById("tasbiCount").innerText=tasbi;
 }
-setInterval(updateTime,1000);
+
+function updateDate(){
+let now=new Date();
+document.getElementById("date").innerText=now.toDateString();
+}
+
+updateDate();
 
 function getLocation(){
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(
-        function(position){
-            document.getElementById("location").innerHTML =
-            "আপনার লোকেশন পাওয়া গেছে ✅";
-        },
-        function(error){
-            alert("লোকেশন পারমিশন প্রয়োজন!");
-        });
-    } else {
-        alert("এই ব্রাউজারে GPS সাপোর্ট নেই");
-    }
+navigator.geolocation.getCurrentPosition(async function(pos){
+
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
+
+let prayer=await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=1`);
+let data=await prayer.json();
+
+let t=data.data.timings;
+
+document.getElementById("sehri").innerText=t.Fajr;
+document.getElementById("iftar").innerText=t.Maghrib;
+
+document.getElementById("fajr").innerText=t.Fajr;
+document.getElementById("dhuhr").innerText=t.Dhuhr;
+document.getElementById("asr").innerText=t.Asr;
+document.getElementById("maghrib").innerText=t.Maghrib;
+document.getElementById("isha").innerText=t.Isha;
+
+document.getElementById("hijri").innerText=
+data.data.date.hijri.day+" "+
+data.data.date.hijri.month.en+" "+
+data.data.date.hijri.year+" হিজরি";
+
+});
+
 }
+
+getLocation();
+
 </script>
 
 </body>
