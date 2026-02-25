@@ -1,166 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>রমজান প্রিমিয়াম</title>
+<title>Ramadan Kareem</title>
 
 <style>
 body{
 margin:0;
-font-family:Arial;
-background:linear-gradient(to bottom,#001f3f,#003366);
+font-family: sans-serif;
+background:#0b2d4d;
 color:white;
 text-align:center;
 }
 
-.container{padding:20px;}
-
-.box-row{
-display:flex;
-justify-content:center;
-gap:15px;
-flex-wrap:wrap;
+h1{
+color:gold;
+margin-top:15px;
 }
 
-.time-box{
+.moon{
+font-size:60px;
+margin-top:10px;
+}
+
+.time{
+font-size:20px;
+margin:10px;
+}
+
+.btn{
 background:gold;
-color:black;
-padding:15px;
-border-radius:12px;
-width:140px;
-font-weight:bold;
+border:none;
+padding:12px 20px;
+font-size:18px;
+border-radius:8px;
+cursor:pointer;
+margin:10px;
 }
 
-.prayer-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-top:20px;
-}
-
-.prayer-box{
-background:#0a3d62;
-padding:10px;
-border-radius:10px;
-}
-
-.circle-btn{
-width:150px;
-height:150px;
+.circle{
+width:200px;
+height:200px;
+background:gold;
 border-radius:50%;
-background:gold;
-color:black;
 display:flex;
 align-items:center;
 justify-content:center;
 margin:20px auto;
-font-weight:bold;
+font-size:22px;
+color:black;
 cursor:pointer;
 }
 
-audio{margin-top:10px;width:90%;}
+.section{
+margin-top:20px;
+padding:10px;
+}
 
-.footer{margin-top:30px;font-size:14px;}
+audio{
+width:90%;
+margin-top:10px;
+}
+
+.table{
+margin:20px auto;
+width:90%;
+background:#123d66;
+padding:10px;
+border-radius:10px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<h1>🌙 Ramadan Kareem 🌙</h1>
 
-<h2 id="date"></h2>
-<h3 id="hijri"></h3>
+<div class="moon">🌙</div>
 
-<h1 id="countdown"></h1>
-
-<p id="locationName"></p>
-
-<div class="box-row">
-<div class="time-box">
-সেহেরি<br><span id="sehri"></span>
+<div class="time">
+বর্তমান সময়: <span id="clock"></span>
 </div>
 
-<div class="time-box">
-ইফতার<br><span id="iftar"></span>
-</div>
-</div>
+<button class="btn" onclick="getLocation()">GPS ব্যবহার করুন</button>
 
-<div class="prayer-grid">
-<div class="prayer-box">ফজর<br><span id="fajr"></span></div>
-<div class="prayer-box">যোহর<br><span id="dhuhr"></span></div>
-<div class="prayer-box">আসর<br><span id="asr"></span></div>
-<div class="prayer-box">মাগরিব<br><span id="maghrib"></span></div>
-<div class="prayer-box">এশা<br><span id="isha"></span></div>
+<div id="locationStatus"></div>
+
+<div class="circle" onclick="showTasbi()">
+তাসবি পড়ুন
 </div>
 
-<div class="circle-btn" onclick="startTasbi()">তাসবি পড়ুন</div>
-<p>গণনা: <span id="tasbiCount">0</span></p>
-
-<h3>▶ সূরা রহমান শুনুন</h3>
-<audio controls>
-<source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/055.mp3">
-</audio>
-
-<h3>রোজা রাখার নিয়ত</h3>
+<div id="tasbiSection" class="section" style="display:none;">
+<h3>তাসবির সূরা</h3>
 <p>
-نَوَيْتُ أَنْ أَصُوْمَ غَدًا مِّنْ شَهْرِ رَمَضَانَ<br><br>
-নাওয়াইতু আন আসুমা গাদাম মিন শাহরি রমাদান
+সুবহানাল্লাহ  
+আলহামদুলিল্লাহ  
+আল্লাহু আকবার  
 </p>
 
-<div class="footer">
-Made By Miraz Ahmed
+<audio controls>
+<source src="https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/055.mp3" type="audio/mpeg">
+</audio>
 </div>
 
+<div class="section">
+<h3>▶ সূরা রহমান শুনুন</h3>
+<audio controls>
+<source src="https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/055.mp3" type="audio/mpeg">
+</audio>
+</div>
+
+<div class="section">
+<h3>রোজা রাখার নিয়ত</h3>
+<p>
+বাংলা: আমি আগামীকালের রোজা রাখার নিয়ত করলাম আল্লাহর সন্তুষ্টির জন্য।<br><br>
+আরবি উচ্চারণ: নাওয়াইতু আন আসুমা গাদান মিন শাহরি রামাদানাল মুবারক।
+</p>
+</div>
+
+<div class="table">
+<h3>আজকের নামাজের সময়সূচি</h3>
+<p>ফজর — 4:30 AM</p>
+<p>যোহর — 12:15 PM</p>
+<p>আসর — 4:45 PM</p>
+<p>মাগরিব — 6:20 PM</p>
+<p>এশা — 8:00 PM</p>
 </div>
 
 <script>
-
-let tasbi=0;
-
-function startTasbi(){
-tasbi++;
-document.getElementById("tasbiCount").innerText=tasbi;
+function updateClock(){
+var now = new Date();
+var time = now.toLocaleTimeString('en-US');
+document.getElementById("clock").innerText = time;
 }
-
-function updateDate(){
-let now=new Date();
-document.getElementById("date").innerText=now.toDateString();
-}
-
-updateDate();
+setInterval(updateClock,1000);
+updateClock();
 
 function getLocation(){
-navigator.geolocation.getCurrentPosition(async function(pos){
-
-let lat=pos.coords.latitude;
-let lon=pos.coords.longitude;
-
-let prayer=await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=1`);
-let data=await prayer.json();
-
-let t=data.data.timings;
-
-document.getElementById("sehri").innerText=t.Fajr;
-document.getElementById("iftar").innerText=t.Maghrib;
-
-document.getElementById("fajr").innerText=t.Fajr;
-document.getElementById("dhuhr").innerText=t.Dhuhr;
-document.getElementById("asr").innerText=t.Asr;
-document.getElementById("maghrib").innerText=t.Maghrib;
-document.getElementById("isha").innerText=t.Isha;
-
-document.getElementById("hijri").innerText=
-data.data.date.hijri.day+" "+
-data.data.date.hijri.month.en+" "+
-data.data.date.hijri.year+" হিজরি";
-
-});
-
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(
+function(position){
+document.getElementById("locationStatus").innerHTML="লোকেশন পাওয়া গেছে ✅";
+},
+function(){
+document.getElementById("locationStatus").innerHTML="লোকেশন পারমিশন দিন ❗";
+}
+);
+}else{
+alert("GPS সাপোর্ট করে না");
+}
 }
 
-getLocation();
-
+function showTasbi(){
+document.getElementById("tasbiSection").style.display="block";
+}
 </script>
 
 </body>
-</html>
+  </html>
